@@ -1,29 +1,22 @@
 =Railroad Tie
 
-I like the idea of application templates in Rails but having
-everything in one file is a big mess so I decided to divide it into
-smaller chunks. Since I haven't been able to figure out any "standard"
-or "better" way how to do it, here is my solution - the sub_template
-method - just put it to your template.rb and use it (you just have to
-specify the '-m' option with full path and do not to use some remote
-repository). Btw - is there some better/cleaner way how to do it?
+I like the idea of application templates in Rails but having everything in one file is a big mess so I decided to divide it into smaller chunks. Since I haven't been able to figure out any "standard" or "better" way how to do it, here is my solution - the sub_template method - just put it to your template.rb and use it (see pre-requisities). Do you know some better way how to do it? Please let me know!
 
 ==Example
 
-if template.starts_with?('../') or template.starts_with?('./')
-  raise "Please specify the '-m' parameter with full path."
-end
+  if template.starts_with?('../') or template.starts_with?('./')
+    raise "Please specify the '-m' parameter with full path."
+  end
 
-def sub_template(name)
-  code = File.new(name).readlines.join
-  self.instance_eval(code)
-end
+  def sub_template(name)
+    code = File.new(name).readlines.join
+    self.instance_eval(code)
+  end
 
-template_root = File.dirname(File.expand_path(template))
-sub_template(template_root + '/db.rb')
+  template_root = File.dirname(File.expand_path(template))
+  sub_template(template_root + '/db.rb')
 
 
 ==Pre-requisities:
 * Tested on Rails 2.3.5
-* binding of runner contains 'template' variable (it is there now but
-it might break in next version)
+* specify the '-m' option with full path and do not to use some remote repository)
